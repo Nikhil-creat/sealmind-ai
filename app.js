@@ -104,11 +104,12 @@
   $("fab").onclick = function () { openChat(); };
   document.addEventListener("keydown", function (e) { if (e.key === "Escape") openChat(false); });
   function add(cls, txt) { var d = document.createElement("div"); d.className = "m " + cls; d.textContent = txt; log.appendChild(d); log.scrollTop = log.scrollHeight; return d; }
+  function typeOut(el, txt) { var i = 0; (function t() { i += 3; el.textContent = txt.slice(0, i); log.scrollTop = log.scrollHeight; if (i < txt.length) setTimeout(t, 12); })(); }
   function send(v) {
     add("u", v.length > 220 ? v.slice(0, 220) + "…" : v); hist.push({ role: "user", content: v }); var w = add("a", "…");
     fetch("/api/chat", { method: "POST", headers: hdr(), body: JSON.stringify({ messages: hist }) })
       .then(function (r) { return r.json().then(function (j) { if (!r.ok) throw new Error(j.error || "Request failed"); return j; }); })
-      .then(function (j) { w.textContent = j.reply; hist.push({ role: "assistant", content: j.reply }); $("prov").textContent = j.provider + " · " + j.model; })
+      .then(function (j) { typeOut(w, j.reply); hist.push({ role: "assistant", content: j.reply }); $("prov").textContent = j.provider + " · " + j.model; })
       .catch(function (er) { hist.pop(); w.textContent = "I can't reach the AI: " + er.message; });
   }
   $("cf").onsubmit = function (e) { e.preventDefault(); var i = $("ci"), v = i.value.trim(); if (v) { i.value = ""; send(v); } };
@@ -135,12 +136,13 @@
   $("file").onchange = function () {
     var f = this.files[0]; if (!f) return;
     if (f.size > 50 * 1024 * 1024) { $("out").textContent = "File is over the 50 MB limit."; return; }
-    var isText = /^text\//.test(f.type) || /\.(txt|md)$/i.test(f.name);
+    var isText = /^text\//.test(f.type) || /\.(txt|md)$/i.test(f.name), isPdf = /\.pdf$/i.test(f.name);
     f.arrayBuffer().then(function (buf) { return crypto.subtle.digest("SHA-256", buf); }).then(function (h) {
       var hex = hexOf(h); fileMeta = { name: f.name, size: f.size, sha256: hex };
-      $("out").innerHTML = "<b>" + esc(f.name) + "</b><p class='small' style='word-break:break-all;margin-top:8px'>SHA-256: " + hex + "</p><p class='small' style='margin-top:8px'>" + (isText ? "Text loaded. Press Analyze risk." : "PDF text extraction belongs to the full backend. Paste the clause text to analyze.") + "</p>";
+      $("out").innerHTML = "<b>" + esc(f.name) + "</b><p class='small' style='word-break:break-all;margin-top:8px'>SHA-256: " + hex + "</p><p class='small' style='margin-top:8px'>" + (isText ? "Text loaded. Press Analyze risk." : isPdf ? "Reading PDF text… then press Analyze risk." : "Binary file: hashed only.") + "</p>";
       $("cert").disabled = false;
     });
+    if (isPdf && window.smPdfText) window.smPdfText(f).then(function (t) { $("src").value = t.slice(0, 6000); $("out").innerHTML += "<p class='small'>PDF text loaded.</p>"; }).catch(function (e) { $("out").innerHTML += "<p class='small'>PDF read failed: " + esc(e.message) + "</p>"; });
     if (isText) f.text().then(function (t) { $("src").value = t.slice(0, 6000); });
   };
   $("cert").onclick = function () {

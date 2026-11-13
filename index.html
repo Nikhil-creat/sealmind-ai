@@ -4,7 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>SealMind AI — Sign with intelligence</title>
-<meta name="description" content="AI-native e-signature and document intelligence: RAG contract search, CNN forgery checks, agentic workflows, SHA-256 sealing.">
+<meta name="description" content="SealMind AI is an open-source, AI-native e-signature and contract intelligence platform: sign PDFs in your browser, get instant clause risk analysis, semantic contract search, agentic workflows and SHA-256 sealed audit certificates. Powered by Groq and Gemini with automatic model detection.">
+<meta name="keywords" content="AI e-signature, digital signature, contract analysis, document intelligence, RAG, agentic AI, Groq, Gemini, pdf-lib, SHA-256, Documenso alternative, open source">
+<meta name="author" content="Nikhil Chary Sriramoju">
+<meta property="og:url" content="https://sealmind-ai.vercel.app/">
+<meta property="og:image" content="https://sealmind-ai.vercel.app/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"SealMind AI","applicationCategory":"BusinessApplication","operatingSystem":"Web","author":{"@type":"Person","name":"Nikhil Chary Sriramoju","url":"https://github.com/Nikhil-creat"},"description":"AI-native e-signature and contract intelligence platform."}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="preconnect" href="https://d2ol7oe51mr4n9.cloudfront.net" crossorigin>
@@ -24,7 +30,7 @@
 <i class="meter" id="meter"></i>
 <header class="chrome">
   <a class="mark" href="#"><span class="mark-star" aria-hidden="true">&#10037;</span>&nbsp;SealMind AI</a>
-  <nav class="nav"><a href="#how">How it works</a><a href="#vault">Vault</a><a href="#agents">Agents</a><a href="#lab">Risk lab</a><a href="#security">Security</a><button class="pill ghost" id="menub" type="button" aria-haspopup="dialog">Menu</button><a class="pill" href="#lab">Analyze</a></nav>
+  <nav class="nav"><a href="#how">How it works</a><a href="#vault">Vault</a><a href="#sign">Sign PDF</a><a href="#lab">Risk lab</a><a href="#security">Security</a><button class="pill ghost" id="menub" type="button" aria-haspopup="dialog">Menu</button><a class="pill" href="#lab">Analyze</a></nav>
 </header>
 <main class="panels" id="top">
   <section class="panel" data-panel><p class="eyebrow">AI document platform <span>&middot;</span> Open source</p><h1>Read it once.<br />Sign it sure.</h1><p class="sub">SealMind reads every clause, checks the pages for tampering, and seals the signed file with a tamper-proof audit trail.</p><div class="cta"><a class="pill" href="#lab">Try the risk lab</a></div></section>
@@ -67,6 +73,23 @@
   <h2>Agents that route, redline and follow up.</h2>
   <div class="row"><select id="agsel" class="pill ghost" aria-label="Sample document" style="padding:0 14px"><option value="0">Incoming NDA</option><option value="1">Vendor invoice agreement</option><option value="2">Employment offer</option></select><button class="pill" id="aggo">Run agents</button></div>
   <div class="tl" id="agout" aria-live="polite"></div>
+</section>
+
+<section class="blk" id="sign" style="padding-top:0">
+  <h2>Sign a real PDF, right here.</h2>
+  <p class="lede">Everything runs in your browser. Your file is never uploaded.</p>
+  <div class="row"><label class="pill ghost" for="pdf">Choose PDF</label><input id="pdf" type="file" accept="application/pdf" hidden><button class="pill ghost" id="sample">Use sample PDF</button><button class="pill ghost" id="clr">Clear signature</button></div>
+  <div class="lab"><div><canvas id="sig" width="600" height="200" aria-label="Signature pad"></canvas><p class="small" style="margin-top:8px">1. Draw your signature. 2. Tap the page to place it. 3. Seal.</p></div><div><canvas id="pg" width="10" height="10" aria-label="PDF page preview"></canvas></div></div>
+  <div class="row"><button class="pill" id="seal" disabled>Seal and download</button><span class="small" id="sst" aria-live="polite"></span></div>
+</section>
+
+<section class="blk" id="compare" style="padding-top:0">
+  <h2>Compare two versions.</h2>
+  <p class="lede">Removed words are struck in red, added words in green.</p>
+  <div class="lab"><textarea id="ca" aria-label="Old version" style="min-height:150px">The Client shall pay within 30 days. Liability is capped at fees paid. This Agreement renews for 12 months.</textarea><textarea id="cb" aria-label="New version" style="min-height:150px">The Client shall pay within 15 days. Liability is unlimited. This Agreement renews for 36 months unless cancelled 90 days in advance.</textarea></div>
+  <div class="row"><button class="pill" id="cgo">Compare</button><button class="pill ghost" id="cai" hidden>Explain changes with AI</button></div>
+  <div class="out" id="cout" style="margin-top:18px;min-height:80px"></div>
+  <p id="cans" class="lede" style="white-space:pre-wrap"></p>
 </section>
 
 <section class="blk" id="lab" style="padding-top:0">
@@ -122,6 +145,7 @@
 </aside>
 <script src="app.js"></script>
 <script src="lab2.js"></script>
+<script src="tools.js"></script>
 <script src="ui.js"></script>
 <script defer src="/_vercel/insights/script.js"></script>
 <script defer src="/_vercel/speed-insights/script.js"></script>

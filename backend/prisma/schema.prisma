@@ -1,0 +1,166 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [vector, pgcrypto]
+}
+enum Role { OWNER ADMIN MEMBER VIEWER }
+enum DocStatus { DRAFT PENDING SIGNED DECLINED EXPIRED FLAGGED }
+enum FieldType { SIGNATURE INITIALS DATE TEXT CHECKBOX }
+enum JobKind { OCR CNN_FORGERY EMBED EMAIL REMINDER }
+enum JobState { QUEUED RUNNING DONE FAILED }
+
+model User {
+  id           String       @id @default(cuid())
+  email        String       @unique
+  name         String?
+  passwordHash String?
+  mfaSecret    String?
+  mfaEnabled   Boolean      @default(false)
+  memberships  Membership[]
+  createdAt    DateTime     @default(now())
+}
+model Organization {
+  id          String       @id @default(cuid())
+  name        String
+  members     Membership[]
+  documents   Document[]
+  apiKeys     ApiKey[]
+  playbooks   Playbook[]
+  zeroRetention Boolean    @default(false)
+}
+model Membership {
+  userId String
+  orgId  String
+  role   Role   @default(MEMBER)
+  user   User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  org    Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  @@id([userId, orgId])
+}
+model ApiKey {
+  id      String   @id @default(cuid())
+  orgId   String
+  prefix  String
+  keyHash String   @unique
+  scopes  String[]
+  lastUsed DateTime?
+  org     Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+}
+model Document {
+  id             String     @id @default(cuid())
+  orgId          String
+  title          String
+  status         DocStatus  @default(DRAFT)
+  storageKey     String
+  sizeBytes      Int        // app enforces <= 50 MB
+  pages          Int        // app enforces <= 250
+  sha256Original String
+  sha256Signed   String?
+  layoutClass    String?
+  fraudScore     Float?
+  org            Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+  recipients     Recipient[]
+  fields         Field[]
+  chunks         Chunk[]
+  reports        AnalysisReport[]
+  audit          AuditEvent[]
+  runs           WorkflowRun[]
+  createdAt      DateTime   @default(now())
+  @@index([orgId, status])
+}
+model Recipient {
+  id     String @id @default(cuid())
+  docId  String
+  email  String
+  name   String?
+  order  Int    @default(0)
+  doc    Document @relation(fields: [docId], references: [id], onDelete: Cascade)
+  tokens SigningToken[]
+  fields Field[]
+}
+model SigningToken {
+  id          String   @id @default(cuid())
+  recipientId String
+  tokenHash   String   @unique
+  expiresAt   DateTime
+  usedAt      DateTime?
+  recipient   Recipient @relation(fields: [recipientId], references: [id], onDelete: Cascade)
+}
+model Field {
+  id          String    @id @default(cuid())
+  docId       String
+  recipientId String?
+  type        FieldType
+  page        Int
+  x           Float
+  y           Float
+  w           Float
+  h           Float
+  value       String?
+  suggested   Boolean   @default(false) // true when placed by the CNN field suggester
+  doc         Document   @relation(fields: [docId], references: [id], onDelete: Cascade)
+  recipient   Recipient? @relation(fields: [recipientId], references: [id])
+}
+model AuditEvent {
+  id        BigInt   @id @default(autoincrement())
+  docId     String
+  action    String
+  actor     String?
+  ip        String?
+  userAgent String?
+  geo       Json?
+  prevHash  String?  // hash chain: each row commits to the previous one
+  hash      String
+  at        DateTime @default(now())
+  doc       Document @relation(fields: [docId], references: [id])
+  @@index([docId, id])
+}
+model Chunk {
+  id        String   @id @default(cuid())
+  docId     String
+  idx       Int
+  text      String
+  embedding Unsupported("vector(1536)")?
+  doc       Document @relation(fields: [docId], references: [id], onDelete: Cascade)
+  @@index([docId])
+}
+model AnalysisReport {
+  id         String   @id @default(cuid())
+  docId      String
+  riskScore  Int
+  summary    String
+  clauses    Json
+  obligations Json
+  provider   String
+  model      String
+  createdAt  DateTime @default(now())
+  doc        Document @relation(fields: [docId], references: [id], onDelete: Cascade)
+}
+model Playbook {
+  id    String @id @default(cuid())
+  orgId String
+  name  String
+  rules Json
+  org   Organization @relation(fields: [orgId], references: [id], onDelete: Cascade)
+}
+model WorkflowRun {
+  id     String @id @default(cuid())
+  docId  String
+  graph  String
+  state  Json
+  doc    Document @relation(fields: [docId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+model Job {
+  id      String   @id @default(cuid())
+  kind    JobKind
+  state   JobState @default(QUEUED)
+  payload Json
+  error   String?
+  attempts Int     @default(0)
+  createdAt DateTime @default(now())
+  @@index([state, kind])
+}

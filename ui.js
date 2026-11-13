@@ -1,7 +1,7 @@
 (function () {
   "use strict";
   var $ = function (i) { return document.getElementById(i); };
-  var ITEMS = [["How it works", "#how"], ["Vault search", "#vault"], ["Agents", "#agents"], ["Risk lab", "#lab"], ["Security", "#security"], ["FAQ", "#faq"], ["Builder", "#builder"], ["Ask Seal", "chat"], ["Email Nikhil", "mailto:sriramojunikhil66@gmail.com"], ["GitHub", "https://github.com/Nikhil-creat"]];
+  var ITEMS = [["How it works", "#how"], ["Vault search", "#vault"], ["Agents", "#agents"], ["Sign a PDF", "#sign"], ["Compare contracts", "#compare"], ["Risk lab", "#lab"], ["Security", "#security"], ["FAQ", "#faq"], ["Builder", "#builder"], ["Ask Seal", "chat"], ["Email Nikhil", "mailto:sriramojunikhil66@gmail.com"], ["GitHub", "https://github.com/Nikhil-creat"]];
   var pal = $("pal"), pq = $("pq"), pl = $("pl");
   function render(q) {
     q = (q || "").toLowerCase(); pl.innerHTML = "";

@@ -1,1 +1,26 @@
-{"name":"sealmind-ai","version":"1.0.0","private":true,"type":"module","description":"AI-native e-signature and document intelligence platform","author":"Nikhil Chary Sriramoju","engines":{"node":">=18"}}
+{
+ "name": "sealmind-ai",
+ "version": "1.0.0",
+ "private": true,
+ "type": "module",
+ "description": "AI-native e-signature and document intelligence platform",
+ "author": "Nikhil Chary Sriramoju",
+ "engines": {
+  "node": ">=18"
+ },
+ "scripts": {
+  "check": "node --check app.js && node --check lab2.js && node --check tools.js && node --check ui.js && node --check sw.js"
+ },
+ "license": "MIT",
+ "keywords": [
+  "ai",
+  "esignature",
+  "contract-analysis",
+  "rag",
+  "groq",
+  "gemini",
+  "pdf-lib",
+  "agentic-ai",
+  "vercel"
+ ]
+}

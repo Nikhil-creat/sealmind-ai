@@ -99,3 +99,6 @@ body.vid .stage video{opacity:1}
 #pl button:hover,#pl button:focus-visible{background:rgba(13,12,11,.06)}
 .skip{position:fixed;left:8px;top:-60px;z-index:100;background:#fff;color:var(--fg);padding:10px 14px;border-radius:8px}.skip:focus{top:8px}
 @media(max-width:720px){#menub{height:36px;padding:0 14px;font-size:13.5px}}
+#sig{width:100%;height:auto;aspect-ratio:3/1;border:1px dashed var(--rule);border-radius:14px;background:rgba(255,255,255,.55);touch-action:none;display:block}
+#pg{width:100%;height:auto;border:1px solid var(--rule);border-radius:10px;background:#fff;cursor:crosshair;display:block}
+del{background:rgba(163,38,28,.14);text-decoration:line-through}ins{background:rgba(31,107,74,.16);text-decoration:none}

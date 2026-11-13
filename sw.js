@@ -1,5 +1,5 @@
 // Offline shell + cached film: repeat visits skip the 11 MB video download. API calls are never cached.
-const V = "sm-v2", VIDEO = "https://d2ol7oe51mr4n9.cloudfront.net";
+const V = "sm-v3", VIDEO = "https://d2ol7oe51mr4n9.cloudfront.net";
 self.addEventListener("install", () => self.skipWaiting());
 self.addEventListener("activate", (e) => e.waitUntil(caches.keys().then((ks) => Promise.all(ks.filter((k) => k !== V).map((k) => caches.delete(k)))).then(() => self.clients.claim())));
 self.addEventListener("fetch", (e) => {
