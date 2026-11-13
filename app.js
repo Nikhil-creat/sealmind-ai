@@ -17,7 +17,9 @@
     progress = max > 0 ? clamp(window.pageYOffset / max, 0, 1) : 0;
     if (duration) seekTo = progress * duration;
   }
-  function paint() {
+  var lastY = -1;
+  function paint(force) {
+    var yy = window.pageYOffset; if (!force && yy === lastY) return; lastY = yy;
     meter.style.transform = "scaleX(" + clamp(window.pageYOffset / Math.max(1, document.documentElement.scrollHeight - window.innerHeight), 0, 1) + ")";
     hint.style.opacity = progress >= 0.98 ? 0 : 1;
     panels.forEach(function (el, i) {
@@ -42,12 +44,13 @@
     if (attached) return; attached = true;
     clip.addEventListener("loadedmetadata", function () { duration = clip.duration || 0; clip.pause(); readScroll(); seekAt = seekTo; try { clip.currentTime = seekAt; } catch (e) {} });
     clip.addEventListener("loadeddata", start); clip.addEventListener("canplaythrough", start); clip.addEventListener("error", start);
-    clip.src = src; clip.load(); setTimeout(start, 12000); // a stalled decode never strands the page behind the preloader
+    clip.addEventListener("loadeddata", function () { document.body.classList.add("vid"); });
+    clip.src = src; clip.load();
   }
   // Buffer the mp4 as a blob first: seeking inside a blob is near instant, range requests over the network are a slideshow.
   function preload() {
     var ctl = window.AbortController ? new AbortController() : null;
-    var bail = setTimeout(function () { if (!attached) { if (ctl) ctl.abort(); setProgress(1); attach(VIDEO_URL); } }, 15000);
+    var bail = setTimeout(function () { if (!attached) { if (ctl) ctl.abort(); setProgress(1); attach(VIDEO_URL); } }, 25000);
     fetch(VIDEO_URL, ctl ? { signal: ctl.signal } : {}).then(function (res) {
       if (!res.ok || !res.body) throw new Error("bad response");
       var total = +res.headers.get("content-length") || 0, got = 0, chunks = [], rd = res.body.getReader();
@@ -148,6 +151,9 @@
   };
 
   window.addEventListener("scroll", readScroll, { passive: true });
-  window.addEventListener("resize", readScroll);
+  window.addEventListener("resize", function () { readScroll(); paint(true); });
+  // Page never waits for the film: reveal after 2.2s even if it is still buffering in the background.
+  setTimeout(start, 2200);
+  if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("/sw.js").catch(function () {});
   readScroll(); paint(); preload(); requestAnimationFrame(frame);
 })();

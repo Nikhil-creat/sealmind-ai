@@ -54,7 +54,9 @@
       cx.fillStyle = ink; cx.font = (on ? "500 " : "400 ") + (W < 420 ? 11 : 13) + "px 'Inter Tight',sans-serif"; cx.fillText(s[0], nx(i), y + 42);
     });
   }
-  function loop(ts) { draw(ts); if (!matchMedia("(prefers-reduced-motion:reduce)").matches) requestAnimationFrame(loop); }
+  var vis = true, lastT = 0, still = matchMedia("(prefers-reduced-motion:reduce)").matches;
+  if (window.IntersectionObserver) new IntersectionObserver(function (e) { vis = e[0].isIntersecting; }).observe(cv);
+  function loop(ts) { if (still) { draw(ts); return; } if (vis && !document.hidden && ts - lastT > 33) { lastT = ts; draw(ts); } requestAnimationFrame(loop); }
   function pick(i) { sel = i; $("pdesc").textContent = ST[i][1]; draw(performance.now()); }
   cv.onclick = function (e) { var r = cv.getBoundingClientRect(), x = e.clientX - r.left, b = 0; for (var i = 1; i < 5; i++) if (Math.abs(nx(i) - x) < Math.abs(nx(b) - x)) b = i; pick(b); };
   size(); t0 = performance.now(); pick(0); requestAnimationFrame(loop); window.addEventListener("resize", function () { size(); draw(performance.now()); });

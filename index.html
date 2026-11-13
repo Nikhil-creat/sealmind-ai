@@ -18,12 +18,13 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+<a class="skip" href="#how">Skip to content</a>
 <div class="boot" id="boot"><div class="bar"><i id="bootBar"></i></div><p id="bootPct">LOADING 0%</p></div>
 <div class="stage"><video id="clip" muted playsinline preload="auto" disablepictureinpicture></video><div class="veil"></div><div class="grain"></div></div>
 <i class="meter" id="meter"></i>
 <header class="chrome">
   <a class="mark" href="#"><span class="mark-star" aria-hidden="true">&#10037;</span>&nbsp;SealMind AI</a>
-  <nav class="nav"><a href="#how">How it works</a><a href="#vault">Vault</a><a href="#agents">Agents</a><a href="#lab">Risk lab</a><a href="#security">Security</a><a class="pill" href="#lab">Analyze a contract</a></nav>
+  <nav class="nav"><a href="#how">How it works</a><a href="#vault">Vault</a><a href="#agents">Agents</a><a href="#lab">Risk lab</a><a href="#security">Security</a><button class="pill ghost" id="menub" type="button" aria-haspopup="dialog">Menu</button><a class="pill" href="#lab">Analyze</a></nav>
 </header>
 <main class="panels" id="top">
   <section class="panel" data-panel><p class="eyebrow">AI document platform <span>&middot;</span> Open source</p><h1>Read it once.<br />Sign it sure.</h1><p class="sub">SealMind reads every clause, checks the pages for tampering, and seals the signed file with a tamper-proof audit trail.</p><div class="cta"><a class="pill" href="#lab">Try the risk lab</a></div></section>
@@ -109,6 +110,7 @@
 <footer class="end"><span>&copy; 2026 SealMind AI · Built by Nikhil Chary Sriramoju</span><span><a href="#platform">Platform</a><a href="#lab">Risk lab</a><a href="#security">Security</a><a href="https://github.com/Nikhil-creat" target="_blank" rel="noopener">GitHub</a></span></footer>
 </div>
 
+<div id="pal" hidden role="dialog" aria-label="Menu"><div class="pbox"><input id="pq" placeholder="Jump to…  (Ctrl+K or /)" autocomplete="off" aria-label="Search menu"><div id="pl"></div></div></div>
 <button class="pill" id="sel" hidden>Ask Seal about selection</button>
 <button class="pill" id="fab" aria-expanded="false" aria-controls="chat">Ask Seal</button>
 <aside id="chat" role="dialog" aria-label="Seal assistant">
@@ -120,5 +122,8 @@
 </aside>
 <script src="app.js"></script>
 <script src="lab2.js"></script>
+<script src="ui.js"></script>
+<script defer src="/_vercel/insights/script.js"></script>
+<script defer src="/_vercel/speed-insights/script.js"></script>
 </body>
 </html>
