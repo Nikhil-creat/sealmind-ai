@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SealMind AI — Sign with intelligence</title>
+<meta name="description" content="AI-native e-signature and document intelligence: RAG contract search, CNN forgery checks, agentic workflows, SHA-256 sealing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://d2ol7oe51mr4n9.cloudfront.net" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#f2f0ec">
+<meta property="og:title" content="SealMind AI">
+<meta property="og:description" content="Sign with intelligence: AI contract risk, forgery checks and sealed audit trails.">
+<meta property="og:type" content="website">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="boot" id="boot"><div class="bar"><i id="bootBar"></i></div><p id="bootPct">LOADING 0%</p></div>
+<div class="stage"><video id="clip" muted playsinline preload="auto" disablepictureinpicture></video><div class="veil"></div><div class="grain"></div></div>
+<i class="meter" id="meter"></i>
+<header class="chrome">
+  <a class="mark" href="#"><span class="mark-star" aria-hidden="true">&#10037;</span>&nbsp;SealMind AI</a>
+  <nav class="nav"><a href="#platform">Platform</a><a href="#lab">Risk lab</a><a href="#security">Security</a><a href="#builder">Builder</a><a class="pill" href="#lab">Analyze a contract</a></nav>
+</header>
+<main class="panels" id="top">
+  <section class="panel" data-panel><p class="eyebrow">AI document platform <span>&middot;</span> Open source</p><h1>Read it once.<br />Sign it sure.</h1><p class="sub">SealMind reads every clause, checks the pages for tampering, and seals the signed file with a tamper-proof audit trail.</p><div class="cta"><a class="pill" href="#lab">Try the risk lab</a></div></section>
+  <section class="panel" data-panel><p class="eyebrow">Contract intelligence</p><h1>Ask your contracts anything.</h1><p class="sub">Search every agreement in plain language, see obligations and risky clauses, and get a redline before anyone signs.</p><div class="cta"><a class="pill" href="#platform">See the platform</a></div></section>
+  <section class="panel" data-panel><p class="eyebrow">Trust layer</p><h1>Sealed with<br />SHA-256.</h1><p class="sub">Every signature records time, device and hash, then binds into the PDF so any later change is visible.</p><div class="cta"><a class="pill" href="#security">Read the security model</a></div></section>
+</main>
+<footer class="foot" id="hint">Scroll to scrub the film &nbsp;&middot;&nbsp; Ask Seal anything, bottom right</footer>
+<div class="track" id="track"></div>
+
+<div class="after">
+<section class="blk" id="platform">
+  <h2>One platform, four intelligence layers.</h2>
+  <p class="lede">A next-generation take on open-source e-signing, built for teams that need to understand a document before they sign it.</p>
+  <div class="grid">
+    <div class="cell"><h3>Layout and forgery vision</h3><p>A CNN pipeline classifies invoices, contracts and forms, suggests where signatures go, and flags altered fonts or pixels.</p></div>
+    <div class="cell"><h3>Contract search (RAG)</h3><p>Chunks and embeds every PDF into pgvector so you can ask for all IP termination clauses across your NDAs.</p></div>
+    <div class="cell"><h3>Agentic workflows</h3><p>Agents route documents to the right owner, compare clauses with your playbook, and chase signers on a schedule.</p></div>
+    <div class="cell"><h3>Seal, your copilot</h3><p>Highlight a paragraph and ask what it means, draft an amendment, or check it against GDPR.</p></div>
+  </div>
+</section>
+
+<section class="blk" id="lab" style="padding-top:0">
+  <h2>Risk lab: paste a clause, get a read.</h2>
+  <p class="lede">Runs on Groq with Gemini as automatic backup. Not legal advice.</p>
+  <div class="lab">
+    <div><textarea id="src" aria-label="Contract text">The Supplier may terminate this Agreement at any time without notice. The Client shall pay a termination penalty equal to 100% of the remaining fees. All intellectual property created during the term, including pre-existing materials, is assigned to the Supplier. Liability of the Supplier is unlimited; liability of the Client is capped at $1,000. This Agreement auto-renews for 36 months unless cancelled 180 days in advance.</textarea>
+    <div class="row"><button class="pill" id="go">Analyze risk</button><button class="pill ghost" id="hash">SHA-256 seal</button><label class="pill ghost" for="file">Upload file</label><input id="file" type="file" hidden><button class="pill ghost" id="cert" disabled>Download certificate</button><span class="small" id="stat"></span></div></div>
+    <div class="out" id="out" aria-live="polite">Results appear here.</div>
+  </div>
+</section>
+
+<section class="blk" id="security" style="padding-top:0">
+  <h2>Built so a signed file can be trusted.</h2>
+  <div class="grid">
+    <div class="cell"><h3>Cryptographic sealing</h3><p>SHA-256 of the original and signed file, with the audit trail bound into PDF metadata via pdf-lib.</p></div>
+    <div class="cell"><h3>Append-only audit log</h3><p>IP, device, token, timestamp and location captured for every signing event.</p></div>
+    <div class="cell"><h3>Encryption and limits</h3><p>AES-256 at rest, TLS 1.3 in transit, 50 MB and 250 page caps, Redis rate limits and queued heavy jobs.</p></div>
+    <div class="cell"><h3>Compliance aligned</h3><p>Designed around eIDAS, ESIGN and GDPR data minimization.</p></div>
+  </div>
+</section>
+
+<section class="blk" id="builder" style="padding-top:0">
+  <h2>Built by Nikhil Chary Sriramoju.</h2>
+  <p class="lede">Final-year Computer Science student shipping AI, data and full-stack projects.</p>
+  <dl class="cred">
+    <div><dt>Education</dt><dd>B.Tech, Computer Science and Engineering<br>Vaagdevi College of Engineering, 2023 – 2027</dd>
+    <dt>Internships</dt><dd>Machine Learning Engineer Intern, Yuva Intern (NSDC), Aug–Sep 2026<br>Data Analytics Intern, Thiranex, Jul–Aug 2026</dd></div>
+    <div><dt>Certifications</dt><dd>NASSCOM / Skill India Digital Hub: AI-Data Engineering and Cloud Infrastructure Analyst<br>IBM SkillsBuild: AI Fundamentals<br>Reliance Foundation: AI/ML Engineer Foundation</dd>
+    <dt>Contact</dt><dd><a href="mailto:sriramojunikhil66@gmail.com">sriramojunikhil66@gmail.com</a><br><a href="https://github.com/Nikhil-creat" target="_blank" rel="noopener">GitHub</a> · <a href="https://in.linkedin.com/in/nikhil-chary-sriramoju-95041b38a" target="_blank" rel="noopener">LinkedIn</a><br>Thorrur, Telangana, India</dd></div>
+  </dl>
+</section>
+<footer class="end"><span>&copy; 2026 SealMind AI · Built by Nikhil Chary Sriramoju</span><span><a href="#platform">Platform</a><a href="#lab">Risk lab</a><a href="#security">Security</a><a href="https://github.com/Nikhil-creat" target="_blank" rel="noopener">GitHub</a></span></footer>
+</div>
+
+<button class="pill" id="sel" hidden>Ask Seal about selection</button>
+<button class="pill" id="fab" aria-expanded="false" aria-controls="chat">Ask Seal</button>
+<aside id="chat" role="dialog" aria-label="Seal assistant">
+  <div class="ch"><span>Seal · contract copilot</span><span><span class="small" id="prov"></span> <button class="pill ghost chip" id="keyb" type="button">Key</button></span></div>
+  <div id="keybox" hidden style="padding:10px 16px;border-bottom:1px solid var(--rule)"><input id="ukey" type="password" autocomplete="off" placeholder="Paste a Groq or Gemini key" aria-label="API key" style="width:100%;height:38px;border:1px solid var(--rule);border-radius:10px;padding:0 12px;font:inherit;font-size:14px"><p class="small" id="kdet" style="margin-top:6px"></p></div>
+  <div id="log"><div class="m a">Hi, I'm Seal. Paste a clause or ask what a term means.</div></div>
+  <div id="chips" class="row" style="padding:8px 12px 0;margin:0"><button type="button" class="pill ghost chip" data-q="Explain this in plain English:">Plain English</button><button type="button" class="pill ghost chip" data-q="Draft an amendment extending the deadline by 30 days for:">+30 day amendment</button><button type="button" class="pill ghost chip" data-q="Check this for GDPR issues:">GDPR check</button></div>
+  <form id="cf"><input id="ci" autocomplete="off" placeholder="Ask about a clause…" aria-label="Message"><button class="pill" type="submit" style="height:40px;padding:0 16px">Send</button></form>
+</aside>
+<script src="app.js"></script>
+</body>
+</html>
